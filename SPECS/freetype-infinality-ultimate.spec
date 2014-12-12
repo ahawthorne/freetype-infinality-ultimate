@@ -1,13 +1,13 @@
 %define _patchrel 2014.12.07
 
-Name: freetype-infinality-ultimate		
+Name: freetype-infinality-ultimate
 Version: 2.5.4
 Release: 1%{?dist}
 Summary: TrueType font rendering library with Infinality patches and custom settings.
 
-Group: System Environment/Libraries	
-License: (FTL or GPLv2+) and BSD and MIT and Public Domain and zlib with acknowledgement	
-URL: http://www.freetype.org	
+Group: System Environment/Libraries
+License: (FTL or GPLv2+) and BSD and MIT and Public Domain and zlib with acknowledgement
+URL: http://www.freetype.org
 Source:  http://download.savannah.gnu.org/releases/freetype/freetype-%{version}.tar.bz2
 Source1: http://download.savannah.gnu.org/releases/freetype/freetype-doc-%{version}.tar.bz2
 Source3: ftconfig.h
@@ -103,10 +103,10 @@ mv $RPM_BUILD_ROOT%{_includedir}/freetype2/config/ftconfig.h \
 install -p -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_includedir}/freetype2/config/ftconfig.h
 
 install -D -T $RPM_SOURCE_DIR/infinality-settings.sh \
- $RPM_BUILD_ROOT/etc/X11/xinit/xinitrc.d/infinality-settings
+ $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/xinitrc.d/infinality-settings
 
 sed -i "1i #!/bin/bash\n" \
- ${RPM_BUILD_ROOT}/etc/X11/xinit/xinitrc.d/infinality-settings
+ ${RPM_BUILD_ROOT}%{_sysconfdir}/X11/xinit/xinitrc.d/infinality-settings
 
 # Don't package static a or .la files
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.{a,la}
@@ -135,7 +135,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc docs/LICENSE.TXT docs/FTL.TXT docs/GPLv2.TXT
 %doc docs/CHANGES docs/VERSION.DLL docs/formats.txt
 %doc
-/etc/X11/xinit/xinitrc.d/infinality-settings
+%{_sysconfdir}/X11/xinit/xinitrc.d/infinality-settings
 
 %files devel
 %defattr(-,root,root)
