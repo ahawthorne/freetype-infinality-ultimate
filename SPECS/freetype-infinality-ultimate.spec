@@ -13,27 +13,27 @@ Summary:	TrueType font rendering library with Infinality patches and custom sett
 Group:		System Environment/Libraries	
 License:	(FTL or GPLv2+) and BSD and MIT and Public Domain and zlib with acknowledgement	
 URL:		http://www.freetype.org	
-Source: http://download.savannah.gnu.org/releases/freetype/freetype-%{version}.tar.bz2
+Source:  http://download.savannah.gnu.org/releases/freetype/freetype-%{version}.tar.bz2
 Source1: http://download.savannah.gnu.org/releases/freetype/freetype-doc-%{version}.tar.bz2
 Source3: ftconfig.h
 Source2: infinality-settings.sh
 
-#Patch21: freetype-2.3.0-enable-spr.patch
+#Patch21:  freetype-2.3.0-enable-spr.patch
 
 # Enable otvalid and gxvalid modules
-#Patch46: freetype-2.2.1-enable-valid.patch
+#Patch46:  freetype-2.2.1-enable-valid.patch
 
 # Fix multilib conflicts
-Patch88: freetype-multilib.patch
+Patch88:  freetype-multilib.patch
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=961855
-#Patch90: freetype-2.4.12-pkgconfig.patch
+#Patch90:  freetype-2.4.12-pkgconfig.patch
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=1079302
-Patch91: freetype-2.5.3-freetype-config-libs.patch
+Patch91:  freetype-2.5.3-freetype-config-libs.patch
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=1161963
-Patch92: freetype-2.5.3-freetype-config-prefix.patch
+Patch92:  freetype-2.5.3-freetype-config-prefix.patch
 
 Patch1: 01-freetype-2.5.4-enable-valid.patch
 Patch2: 02-ftsmooth-2.5.4.patch
@@ -74,9 +74,9 @@ FreeType.
 %prep
 %setup -q -n freetype-%{version}
 
-#%patch21 -p1 -b .enable-spr
+#%patch21  -p1 -b .enable-spr
 
-#%patch46 -p1 -b .enable-valid
+#%patch46  -p1 -b .enable-valid
 
 %patch88 -p1 -b .multilib
 
@@ -94,10 +94,10 @@ FreeType.
 
 %build
 %configure --disable-static \
- --with-zlib=yes \
- --with-bzip2=yes \
- --with-png=yes \
- --with-harfbuzz=yes
+           --with-zlib=yes \
+           --with-bzip2=yes \
+           --with-png=yes \
+           --with-harfbuzz=yes
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' builds/unix/libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' builds/unix/libtool
 make %{?_smp_mflags}
@@ -121,16 +121,16 @@ rm -rf $RPM_BUILD_ROOT
 %makeinstall gnulocaledir=$RPM_BUILD_ROOT%{_datadir}/locale
 
 #{
-# for ftdemo in ftbench ftchkwd ftmemchk ftpatchk fttimer ftdump ftlint ftmemchk ftvalid ; do
-# builds/unix/libtool --mode=install install -m 755 ft2demos-%{version}/bin/$ftdemo $RPM_BUILD_ROOT/%{_bindir}
-# done
+#  for ftdemo in ftbench ftchkwd ftmemchk ftpatchk fttimer ftdump ftlint ftmemchk ftvalid ; do
+#      builds/unix/libtool --mode=install install -m 755 ft2demos-%{version}/bin/$ftdemo $RPM_BUILD_ROOT/%{_bindir}
+#  done
 #}
 
 # fix multilib issues
 %define wordsize %{__isa_bits}
 
 mv $RPM_BUILD_ROOT%{_includedir}/freetype2/config/ftconfig.h \
- $RPM_BUILD_ROOT%{_includedir}/freetype2/config/ftconfig-%{wordsize}.h
+   $RPM_BUILD_ROOT%{_includedir}/freetype2/config/ftconfig-%{wordsize}.h
 install -p -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_includedir}/freetype2/config/ftconfig.h
 
 install -D -T $RPM_SOURCE_DIR/infinality-settings.sh \
@@ -145,14 +145,14 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.{a,la}
 # Move library to avoid conflict with official FreeType package
 mkdir $RPM_BUILD_ROOT%{_libdir}/%{name}
 mv -f $RPM_BUILD_ROOT%{_libdir}/libfreetype.so.* \
- $RPM_BUILD_ROOT%{_libdir}/%{name}
+      $RPM_BUILD_ROOT%{_libdir}/%{name}
 cd $RPM_BUILD_ROOT%{_libdir}/%{name}
 cd -
 
 %if %{createsymlink}
- cd $RPM_BUILD_ROOT%{_libdir}/%{name}
- ln -s libfreetype.so.%{freetypelibversion} libfreetype.so.%{oldfreetypelibversion}
- cd -
+  cd $RPM_BUILD_ROOT%{_libdir}/%{name}
+  ln -s libfreetype.so.%{freetypelibversion} libfreetype.so.%{oldfreetypelibversion}
+  cd -
 %endif
 
 # Don't create a symlink in the /usr/lib directory
@@ -162,7 +162,7 @@ rm $RPM_BUILD_ROOT%{_libdir}/libfreetype.so
 # Register the library directory in /etc/ld.so.conf.d
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/ld.so.conf.d
 echo "%{_libdir}/%{name}" \
- >$RPM_BUILD_ROOT%{_sysconfdir}/ld.so.conf.d/%{name}-%{_arch}.conf
+     >$RPM_BUILD_ROOT%{_sysconfdir}/ld.so.conf.d/%{name}-%{_arch}.conf
 
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 
@@ -173,8 +173,8 @@ mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 #cp %{SOURCE91} $RPM_BUILD_ROOT/%{_sysconfdir}/profile.d/
 
 #cd $RPM_BUILD_ROOT/usr/share/doc/%{name}-%{version}/
-#tar jcf %{name}-%{version}-%{infinalityrelease}-%{_arch}.tar.bz2 `basename %{SOURCE91}` `basename %{SOURCE92}` `basename %{PATCH22}`
-#rm `basename %{SOURCE91}` `basename %{SOURCE92}` `basename %{PATCH22}`
+#tar jcf %{name}-%{version}-%{infinalityrelease}-%{_arch}.tar.bz2 `basename  %{SOURCE91}` `basename  %{SOURCE92}` `basename  %{PATCH22}`
+#rm `basename  %{SOURCE91}` `basename  %{SOURCE92}` `basename  %{PATCH22}`
 #cd -
 
 
@@ -184,32 +184,32 @@ rm -rf $RPM_BUILD_ROOT
 
 %triggerpostun -- freetype < 2.0.5-3
 {
- # ttmkfdir updated - as of 2.0.5-3, on upgrades we need xfs to regenerate
- # things to get the iso10646-1 encoding listed.
- for I in %{_datadir}/fonts/*/TrueType /usr/share/X11/fonts/TTF; do
- [ -d $I ] && [ -f $I/fonts.scale ] && [ -f $I/fonts.dir ] && touch $I/fonts.scale
- done
- exit 0
+  # ttmkfdir updated - as of 2.0.5-3, on upgrades we need xfs to regenerate
+  # things to get the iso10646-1 encoding listed.
+  for I in %{_datadir}/fonts/*/TrueType /usr/share/X11/fonts/TTF; do
+      [ -d $I ] && [ -f $I/fonts.scale ] && [ -f $I/fonts.dir ] && touch $I/fonts.scale
+  done
+  exit 0
 }
 
 %post
 /sbin/ldconfig
 if [ "${SELINUXTYPE}" == "%1" ] && selinuxenabled && load_policy; then
- /usr/sbin/semanage fcontext -a -t textrel_shlib_t %{_libdir}/freetype-infinality/libfreetype.so.%{freetypelibversion}
- /sbin/restorecon %{_libdir}/freetype-infinality/libfreetype.so.%{freetypelibversion}
+  /usr/sbin/semanage fcontext -a -t textrel_shlib_t %{_libdir}/freetype-infinality/libfreetype.so.%{freetypelibversion}
+  /sbin/restorecon %{_libdir}/freetype-infinality/libfreetype.so.%{freetypelibversion}
 fi
 
 
 %postun
 if [ "${SELINUXTYPE}" == "%1" ] && selinuxenabled && load_policy; then
- /usr/sbin/semanage fcontext -d -t textrel_shlib_t %{_libdir}/freetype-infinality/libfreetype.so.%{freetypelibversion}
+  /usr/sbin/semanage fcontext -d -t textrel_shlib_t %{_libdir}/freetype-infinality/libfreetype.so.%{freetypelibversion}
 fi
 /sbin/ldconfig
 
 
 %files
 %defattr(-,root,root)
-%{_libdir}/libfreetype.so.*
+#%{_libdir}/libfreetype.so.*
 %{_libdir}/%{name}
 %{_sysconfdir}/*
 %doc README
