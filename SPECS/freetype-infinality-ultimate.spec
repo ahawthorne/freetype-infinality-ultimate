@@ -1,19 +1,19 @@
-%define _patchrel 2014.12.07
+%define _patchrel 2014.12.17
 
 %define freetypemajorversion 6
 %define freetypelibversion 6.11.3
 %define oldfreetypelibversion 6.11.2
 %define createsymlink 1
 
-Name: 		freetype-infinality-ultimate		
+Name: 		freetype-infinality-ultimate
 Version: 	2.5.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	TrueType font rendering library with Infinality patches and custom settings.
 
-Group:		System Environment/Libraries	
-License:	(FTL or GPLv2+) and BSD and MIT and Public Domain and zlib with acknowledgement	
-URL:		http://www.freetype.org	
-Source:  http://download.savannah.gnu.org/releases/freetype/freetype-%{version}.tar.bz2
+Group:		System Environment/Libraries
+License:	(FTL or GPLv2+) and BSD and MIT and Public Domain and zlib with acknowledgement
+URL:		http://www.freetype.org
+Source: http://download.savannah.gnu.org/releases/freetype/freetype-%{version}.tar.bz2
 Source1: http://download.savannah.gnu.org/releases/freetype/freetype-doc-%{version}.tar.bz2
 Source3: ftconfig.h
 Source2: infinality-settings.sh
@@ -231,6 +231,10 @@ fi
 #%doc docs/tutorial
 %{_mandir}/man1/*
 
+
+%changelog
+* Tue Dec 16 2014 Andrew Hawthorne <andrew.hawthorne@gmail.com> - 2.5.4-2
+- New patchrel via bohoomil
 
 %changelog
 * Thu Dec 11 2014 Andrew Hawthorne <andrew.hawthorne@gmail.com> - 2.5.4-1
