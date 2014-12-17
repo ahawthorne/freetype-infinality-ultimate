@@ -236,7 +236,6 @@ fi
 * Tue Dec 16 2014 Andrew Hawthorne <andrew.hawthorne@gmail.com> - 2.5.4-2
 - New patchrel via bohoomil
 
-%changelog
 * Thu Dec 11 2014 Andrew Hawthorne <andrew.hawthorne@gmail.com> - 2.5.4-1
 - Ininital build
 
