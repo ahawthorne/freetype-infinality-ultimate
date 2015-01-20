@@ -1,4 +1,4 @@
-%define _patchrel 2014.12.17
+%define _patchrel 2014.12.30
 
 %define freetypemajorversion 6
 %define freetypelibversion 6.11.3
@@ -6,8 +6,8 @@
 %define createsymlink 1
 
 Name: 		freetype-infinality-ultimate
-Version: 	2.5.4
-Release:	2%{?dist}
+Version: 	2.5.5
+Release:	1%{?dist}
 Summary:	TrueType font rendering library with Infinality patches and custom settings.
 
 Group:		System Environment/Libraries
@@ -35,10 +35,10 @@ Patch91:  freetype-2.5.3-freetype-config-libs.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=1161963
 Patch92:  freetype-2.5.3-freetype-config-prefix.patch
 
-Patch1: 01-freetype-2.5.4-enable-valid.patch
-Patch2: 02-ftsmooth-2.5.4.patch
-Patch3: 03-upstream-%{_patchrel}.patch
-Patch4: 04-infinality-2.5.4-%{_patchrel}.patch
+Patch1: 01-freetype-%{version}-enable-valid.patch
+Patch2: 02-ftsmooth-%{version}.patch
+#Patch3: 03-upstream-%{_patchrel}.patch
+Patch4: 04-infinality-%{version}-%{_patchrel}.patch
 
 Buildroot: %{_tmppath}/%{name}-%{version}-root-%(%{__id_u} -n)
 
@@ -88,8 +88,8 @@ FreeType.
 
 %patch1 -p1 -b .enable-valid
 %patch2 -p1 -b .ft-smooth
-%patch3 -p1 -b .upstream-%{_patchrel}
-%patch4 -p1 -b .infinality-2.5.4-%{_patchrel}
+#%patch3 -p1 -b .upstream-%{_patchrel}
+%patch4 -p1 -b .infinality-%{version}-%{_patchrel}
 
 
 %build
